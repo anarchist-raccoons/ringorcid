@@ -2,7 +2,7 @@
 
 Very rough demo of retrieving orcid records where the current employment is a specified employer.
 
-Employer is looked up using the ringgold id (grid to follow).
+Employer is looked up using the ringgold or grid id
 
 # Environment Variables
 
