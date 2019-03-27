@@ -1,0 +1,52 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Results</h1>
+
+<% if @orcids['num-found'] %>
+    <p>Total number found: <%= @orcids['num-found'] %></p>
+<% else %>
+    <p> No results were returned</p>
+<% end %>
+
+<% 
+    if params[:ringold] == "true"
+      org_id = 'RINGGOLD'
+    elsif params[:grid] == "true"
+      org_id = 'GRID'
+    end 
+%>
+
+<p>You searched for <%= org_id %> <%= params[:id].gsub('_','.') %></p>
+
+<p>Displaying those with <%= org_id %> in the latest employment (assuming this is the first in the record)</p>
+
+<p>Looking in the first 20 records only.</p>
+
+<% if @orcids['result'] %>
+    <% @orcids['result'][0..20].each do | orcid | %>
+      <% orc =  retrieve_orcid(orcid['orcid-identifier']['path']) %>
+      <% unless orc['activities-summary']['employments']['affiliation-group'].blank? %>
+          <% if employer?(orc['activities-summary']['employments']['affiliation-group']) == true %>
+          <p>
+              <strong></b><%= orc['person']['name']['given-names']['value'] %> <%= orc['person']['name']['family-name']['value'] %></strong><br /><br />
+              <% org = orc['activities-summary']['employments']['affiliation-group'].first['summaries'].first %>
+                <% unless org['employment-summary']['source']['source-name'].blank? %>
+                    Source: <%= org['employment-summary']['source']['source-name']['value'] %><br />
+                <% end %>
+                Organisation: <%= org['employment-summary']['organization']['name'] %><br />
+                Department: <%= org['employment-summary']['department-name'] %><br />
+                <% unless org['employment-summary']['start-date'].blank? %>
+                    Start: <%= org.fetch('employment-summary').fetch('start-date').fetch('year').fetch('value') %> <%= org.fetch('employment-summary').fetch('start-date').fetch('month').fetch('value') %> <br />
+                <% end %>
+                <% unless org['employment-summary']['end-date'].blank? %>
+                    End: <%= org.fetch('employment-summary').fetch('end-date').fetch('year').fetch('value') %> <%= org.fetch('employment-summary').fetch('end-date').fetch('month').fetch('value') %> <br />
+                <% end %>
+                Role: <%= org['employment-summary']['role-title'] %><br />
+          </p>
+          <% end %>
+      <% end %>
+    <% end %>
+<% end %>
+
+<%= link_to "New Search", root_path  %>
+

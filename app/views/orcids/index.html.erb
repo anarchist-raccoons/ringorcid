@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Search</h1>
+
+<%= form_for @orcid, url: { action: "ringgold_query" } do |f| %>
+  <%= f.text_field :id %>
+  <%= f.submit "Find me some Ringgold" %>
+  <%= f.hidden_field(:ringgold, :value => true)%>
+<% end %>
+
+<br /><br />
+
+<%= form_for @orcid, url: { action: "grid_query" } do |f| %>
+  <%= f.text_field :id %>
+  <%= f.submit "Find me a Grid" %>
+  <%= f.hidden_field(:grid, :value => true)%>
+<% end %>
+
+<br /><br />
+
+<h2>Examples</h2>
+
+RINGGOLD 3163 (one in current employment for first 20)<br />
+RINGGOLD 283437 (one)<br />
+GRID grid.5509.9 (none)<br />
