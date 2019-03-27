@@ -8,17 +8,9 @@
     <p> No results were returned</p>
 <% end %>
 
-<% 
-    if params[:ringold] == "true"
-      org_id = 'RINGGOLD'
-    elsif params[:grid] == "true"
-      org_id = 'GRID'
-    end 
-%>
+<p>You searched for <%= params[:id].gsub('_','.') %></p>
 
-<p>You searched for <%= org_id %> <%= params[:id].gsub('_','.') %></p>
-
-<p>Displaying those with <%= org_id %> in the latest employment (assuming this is the first in the record)</p>
+<p>Displaying those with params[:id].gsub('_','.') in the latest employment (assuming this is the first in the record)</p>
 
 <p>Looking in the first 20 records only.</p>
 
